@@ -6,7 +6,7 @@ import Cookies from "universal-cookie"
 import Layout from "../../components/common/Layout"
 import ModalShell from "../../components/common/ModalShell"
 import FieldLabel from "../../components/common/FieldLabel"
-import inputStyle from "../../components/common/inputStyle"
+import InputStyle from "../../components/common/InputStyle"
 import Toast from "../../components/common/Toast"
 import { myProfile, setPin, changePin, resetPin, changeUserPassword, deleteUserAccount } from "../../services/api"
 
@@ -97,7 +97,7 @@ const PinInput = ({ name, placeholder, formik }) => (
         maxLength={4}
         onChange={formik.handleChange}
         value={formik.values[name]}
-        style={inputStyle(formik.touched[name] && formik.errors[name])}
+        style={InputStyle(formik.touched[name] && formik.errors[name])}
         onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
         onBlur={e => {
             formik.handleBlur(e)
@@ -426,7 +426,7 @@ const Settings = () => {
                             placeholder="Enter your account password"
                             onChange={resetPinFormik.handleChange}
                             value={resetPinFormik.values.password}
-                            style={inputStyle(resetPinFormik.touched.password && resetPinFormik.errors.password)}
+                            style={InputStyle(resetPinFormik.touched.password && resetPinFormik.errors.password)}
                             onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                             onBlur={e => {
                                 resetPinFormik.handleBlur(e)
@@ -474,7 +474,7 @@ const Settings = () => {
                             placeholder="Enter current password"
                             onChange={changePasswordFormik.handleChange}
                             value={changePasswordFormik.values.oldPassword}
-                            style={inputStyle(changePasswordFormik.touched.oldPassword && changePasswordFormik.errors.oldPassword)}
+                            style={InputStyle(changePasswordFormik.touched.oldPassword && changePasswordFormik.errors.oldPassword)}
                             onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                             onBlur={e => {
                                 changePasswordFormik.handleBlur(e)
@@ -493,7 +493,7 @@ const Settings = () => {
                             placeholder="Enter new password"
                             onChange={changePasswordFormik.handleChange}
                             value={changePasswordFormik.values.newPassword}
-                            style={inputStyle(changePasswordFormik.touched.newPassword && changePasswordFormik.errors.newPassword)}
+                            style={InputStyle(changePasswordFormik.touched.newPassword && changePasswordFormik.errors.newPassword)}
                             onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                             onBlur={e => {
                                 changePasswordFormik.handleBlur(e)
@@ -512,7 +512,7 @@ const Settings = () => {
                             placeholder="Repeat new password"
                             onChange={changePasswordFormik.handleChange}
                             value={changePasswordFormik.values.confirmNewPassword}
-                            style={inputStyle(changePasswordFormik.touched.confirmNewPassword && changePasswordFormik.errors.confirmNewPassword)}
+                            style={InputStyle(changePasswordFormik.touched.confirmNewPassword && changePasswordFormik.errors.confirmNewPassword)}
                             onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                             onBlur={e => {
                                 changePasswordFormik.handleBlur(e)
@@ -581,7 +581,7 @@ const Settings = () => {
                             placeholder="Enter your password"
                             onChange={deleteFormik.handleChange}
                             value={deleteFormik.values.password}
-                            style={inputStyle(deleteFormik.touched.password && deleteFormik.errors.password)}
+                            style={InputStyle(deleteFormik.touched.password && deleteFormik.errors.password)}
                             onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                             onBlur={e => {
                                 deleteFormik.handleBlur(e)
