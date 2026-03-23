@@ -3,7 +3,7 @@ import { useFormik } from "formik"
 import * as yup from "yup"
 import ModalShell from "../common/ModalShell"
 import FieldLabel from "../common/FieldLabel"
-import inputStyle from "../common/inputStyle"
+import InputStyle from "../common/InputStyle"
 import AdminMessageFormat from "../common/AdminMessageFormat"
 import Toast from "../common/Toast"
 import ConfirmSellModal from "./ConfirmSellModal"
@@ -120,7 +120,7 @@ const SellCryptoModal = ({ show, onClose, wallet, prices }) => {
                             onBlur={formik.handleBlur}
                             value={formik.values.cryptoType}
                             style={{
-                                ...inputStyle(formik.touched.cryptoType && formik.errors.cryptoType),
+                                ...InputStyle(formik.touched.cryptoType && formik.errors.cryptoType),
                                 cursor: "pointer"
                             }}
                         >
@@ -168,7 +168,7 @@ const SellCryptoModal = ({ show, onClose, wallet, prices }) => {
                             step="any"
                             onChange={formik.handleChange}
                             value={formik.values.amount}
-                            style={inputStyle(formik.touched.amount && formik.errors.amount)}
+                            style={InputStyle(formik.touched.amount && formik.errors.amount)}
                             onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                             onBlur={e => {
                                 formik.handleBlur(e)
@@ -189,7 +189,7 @@ const SellCryptoModal = ({ show, onClose, wallet, prices }) => {
                             maxLength={4}
                             onChange={formik.handleChange}
                             value={formik.values.pin}
-                            style={inputStyle(formik.touched.pin && formik.errors.pin)}
+                            style={InputStyle(formik.touched.pin && formik.errors.pin)}
                             onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                             onBlur={e => {
                                 formik.handleBlur(e)

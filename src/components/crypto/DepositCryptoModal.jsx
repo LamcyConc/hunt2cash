@@ -3,7 +3,7 @@ import { useFormik } from "formik"
 import * as yup from "yup"
 import ModalShell from "../common/ModalShell"
 import FieldLabel from "../common/FieldLabel"
-import inputStyle from "../common/inputStyle"
+import InputStyle from "../common/InputStyle"
 import AdminMessageFormat from "../common/AdminMessageFormat"
 import { depositCrypto } from "../../services/api"
 
@@ -92,7 +92,7 @@ const DepositCryptoModal = ({ show, onClose, wallet }) => {
                         onBlur={formik.handleBlur}
                         value={formik.values.cryptoType}
                         style={{
-                            ...inputStyle(formik.touched.cryptoType && formik.errors.cryptoType),
+                            ...InputStyle(formik.touched.cryptoType && formik.errors.cryptoType),
                             cursor: "pointer"
                         }}
                     >
@@ -143,7 +143,7 @@ const DepositCryptoModal = ({ show, onClose, wallet }) => {
                         step="any"
                         onChange={formik.handleChange}
                         value={formik.values.amount}
-                        style={inputStyle(formik.touched.amount && formik.errors.amount)}
+                        style={InputStyle(formik.touched.amount && formik.errors.amount)}
                         onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                         onBlur={e => {
                             formik.handleBlur(e)

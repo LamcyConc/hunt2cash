@@ -4,7 +4,7 @@ import * as yup from "yup"
 import { useNavigate } from "react-router-dom"
 import ModalShell        from "../common/ModalShell"
 import FieldLabel        from "../common/FieldLabel"
-import inputStyle        from "../common/inputStyle"
+import InputStyle        from "../common/InputStyle"
 import Toast             from "../common/Toast"
 import ConfirmSendModal  from "./ConfirmSendModal"
 import { transferFunds, findAccountName } from "../../services/api"
@@ -266,7 +266,7 @@ const SendMoneyModal = ({ show, onClose }) => {
                                 placeholder="10-digit account number"
                                 onChange={handleAccountChange}
                                 value={formik.values.accountNumber}
-                                style={inputStyle(formik.touched.accountNumber && formik.errors.accountNumber)}
+                                style={InputStyle(formik.touched.accountNumber && formik.errors.accountNumber)}
                                 onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                                 onBlur={e => {
                                     formik.handleBlur(e)
@@ -287,7 +287,7 @@ const SendMoneyModal = ({ show, onClose }) => {
                                 placeholder="Beneficiary name"
                                 value={resolvedName.toUpperCase()}
                                 style={{
-                                    ...inputStyle(false),
+                                    ...InputStyle(false),
                                     background: resolvedName && !isAccountNotFound ? "#f0f8f3" : "#fafafa",
                                     color:      isAccountNotFound ? "#dc3545" : primary,
                                     fontWeight: resolvedName && !isAccountNotFound ? "bold" : "normal",
@@ -311,7 +311,7 @@ const SendMoneyModal = ({ show, onClose }) => {
                                 placeholder="₦ Enter amount"
                                 onChange={formik.handleChange}
                                 value={formik.values.amount}
-                                style={inputStyle(formik.touched.amount && formik.errors.amount)}
+                                style={InputStyle(formik.touched.amount && formik.errors.amount)}
                                 onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                                 onBlur={e => {
                                     formik.handleBlur(e)
@@ -331,7 +331,7 @@ const SendMoneyModal = ({ show, onClose }) => {
                                 placeholder="What's this for?"
                                 onChange={formik.handleChange}
                                 value={formik.values.description}
-                                style={inputStyle(false)}
+                                style={InputStyle(false)}
                                 onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                                 onBlur={e => {
                                     formik.handleBlur(e)
@@ -349,7 +349,7 @@ const SendMoneyModal = ({ show, onClose }) => {
                                 maxLength={4}
                                 onChange={formik.handleChange}
                                 value={formik.values.pin}
-                                style={inputStyle(formik.touched.pin && formik.errors.pin)}
+                                style={InputStyle(formik.touched.pin && formik.errors.pin)}
                                 onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                                 onBlur={e => {
                                     formik.handleBlur(e)
