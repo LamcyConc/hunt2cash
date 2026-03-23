@@ -1,4 +1,4 @@
-const inputStyle = (hasError) => ({
+const InputStyle = (hasError) => ({
     width:        "100%",
     padding:      "12px 14px",
     borderRadius: "8px",
@@ -10,4 +10,4 @@ const inputStyle = (hasError) => ({
     transition:   "border 0.2s"
 })
 
-export default inputStyle
+export default InputStyle

@@ -3,7 +3,7 @@ import { useFormik } from "formik"
 import * as yup from "yup"
 import Layout from "../../components/common/Layout"
 import FieldLabel from "../../components/common/FieldLabel"
-import inputStyle from "../../components/common/inputStyle"
+import InputStyle from "../../components/common/InputStyle"
 import { getExchangeDetails, topUpLiquidity, updateWalletAddresses } from "../../services/api"
 
 const primary      = "#0F3D2E"
@@ -215,7 +215,7 @@ const AdminExchange = () => {
                             placeholder="Enter naira amount"
                             onChange={liquidityFormik.handleChange}
                             value={liquidityFormik.values.amount}
-                            style={inputStyle(liquidityFormik.touched.amount && liquidityFormik.errors.amount)}
+                            style={InputStyle(liquidityFormik.touched.amount && liquidityFormik.errors.amount)}
                             onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                             onBlur={e => {
                                 liquidityFormik.handleBlur(e)
@@ -297,7 +297,7 @@ const AdminExchange = () => {
                                 placeholder={`Enter ${coin.toUpperCase()} address`}
                                 onChange={walletsFormik.handleChange}
                                 value={walletsFormik.values[coin]}
-                                style={inputStyle(walletsFormik.touched[coin] && walletsFormik.errors[coin])}
+                                style={InputStyle(walletsFormik.touched[coin] && walletsFormik.errors[coin])}
                                 onFocus={e => e.target.style.border = `1.5px solid ${primary}`}
                                 onBlur={e => {
                                     walletsFormik.handleBlur(e)
