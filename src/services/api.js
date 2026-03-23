@@ -4,7 +4,7 @@ import Cookies from "universal-cookie"
 const cookies = new Cookies()
 
 const api = axios.create({
-    baseURL: "http://localhost:5020/api/v1",
+    baseURL: "https://hunt2cashserver.vercel.app/api/v1",
 })
 
 // Automatically attach token to every request
