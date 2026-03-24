@@ -311,7 +311,7 @@ const Transactions = () => {
                                         borderRadius: "50px",
                                         letterSpacing: "0.5px"
                                     }}>
-                                        {tx.status?.toUpperCase()}
+                                        {tx.status === "success" ? "SUCCESSFUL" : tx.status?.toUpperCase()}
                                     </span>
                                 </div>
 
