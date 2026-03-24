@@ -131,7 +131,6 @@ const Transfer = () => {
                 ))}
             </div>
 
-            {/* Modals */}
             <SendMoneyModal
                 show={activeModal === "send"}
                 onClose={() => setActiveModal(null)}

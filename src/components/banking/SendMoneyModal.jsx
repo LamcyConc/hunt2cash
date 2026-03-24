@@ -2,28 +2,29 @@ import { useState } from "react"
 import { useFormik } from "formik"
 import * as yup from "yup"
 import { useNavigate } from "react-router-dom"
-import ModalShell        from "../common/ModalShell"
-import FieldLabel        from "../common/FieldLabel"
-import InputStyle        from "../common/InputStyle"
-import Toast             from "../common/Toast"
-import ConfirmSendModal  from "./ConfirmSendModal"
+import ModalShell from "../common/ModalShell"
+import FieldLabel from "../common/FieldLabel"
+import InputStyle from "../common/InputStyle"
+import Toast from "../common/Toast"
+import ConfirmSendModal from "./ConfirmSendModal"
 import { transferFunds, findAccountName } from "../../services/api"
+import Cookies from "universal-cookie"
 
-const primary      = "#0F3D2E"
+const primary = "#0F3D2E"
 const primaryLight = "#0B5D3B"
-const accent       = "#E6A800"
+const accent = "#E6A800"
 const accentBright = "#F4B400"
 
 const SendMoneyModal = ({ show, onClose }) => {
     const navigate = useNavigate()
 
     const [resolvedName, setResolvedName] = useState("")
-    const [lookingUp,    setLookingUp]    = useState(false)
-    const [view,         setView]         = useState("form")
-    const [successData,  setSuccessData]  = useState(null)
-    const [confirming,   setConfirming]   = useState(false)
+    const [lookingUp, setLookingUp] = useState(false)
+    const [view, setView] = useState("form")
+    const [successData, setSuccessData] = useState(null)
+    const [confirming, setConfirming] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const [toast,        setToast]        = useState({ show: false, type: "success", message: "" })
+    const [toast, setToast] = useState({ show: false, type: "success", message: "" })
 
     const showToast = (type, message) => setToast({ show: true, type, message })
     const hideToast = () => setToast({ show: false, type: "success", message: "" })
@@ -41,9 +42,9 @@ const SendMoneyModal = ({ show, onClose }) => {
     const formik = useFormik({
         initialValues: {
             accountNumber: "",
-            amount:        "",
-            pin:           "",
-            description:   ""
+            amount: "",
+            pin: "",
+            description: ""
         },
 
         onSubmit: () => {
@@ -52,9 +53,9 @@ const SendMoneyModal = ({ show, onClose }) => {
 
         validationSchema: yup.object({
             accountNumber: yup.string().required("Account number is required").length(10, "Must be 10 digits"),
-            amount:        yup.number().required("Amount is required").min(1, "Minimum is ₦1"),
-            pin:           yup.string().required("PIN is required").length(4, "PIN must be 4 digits"),
-            description:   yup.string()
+            amount: yup.number().required("Amount is required").min(1, "Minimum is ₦1"),
+            pin: yup.string().required("PIN is required").length(4, "PIN must be 4 digits"),
+            description: yup.string()
         })
     })
 
@@ -64,9 +65,9 @@ const SendMoneyModal = ({ show, onClose }) => {
         try {
             const response = await transferFunds({
                 recipientAccountNumber: values.accountNumber,
-                amount:                 parseFloat(values.amount),
-                pin:                    values.pin,
-                description:            values.description
+                amount: parseFloat(values.amount),
+                pin: values.pin,
+                description: values.description
             })
             setSuccessData(response.data.data)
             setConfirming(false)
@@ -88,6 +89,17 @@ const SendMoneyModal = ({ show, onClose }) => {
         if (val.length === 10) {
             setLookingUp(true)
             setResolvedName("")
+
+
+            const cookies = new Cookies()
+            const token = cookies.get("token")
+            const currentUser = token ? JSON.parse(atob(token.split(".")[1])) : null
+            if (String(val) === String(currentUser?.accountNumber)) {
+                setResolvedName("❌ You cannot transfer to your own account")
+                setLookingUp(false)
+                return
+            }
+
             try {
                 const res = await findAccountName({ accountNumber: val })
                 setResolvedName(
@@ -133,23 +145,23 @@ const SendMoneyModal = ({ show, onClose }) => {
                     <div style={{ textAlign: "center" }}>
 
                         <div style={{
-                            width:          "64px", height: "64px",
-                            background:     "rgba(76,175,80,0.1)",
-                            borderRadius:   "50%",
-                            display:        "flex",
-                            alignItems:     "center",
+                            width: "64px", height: "64px",
+                            background: "rgba(76,175,80,0.1)",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
                             justifyContent: "center",
-                            fontSize:       "32px",
-                            margin:         "0 auto 20px"
+                            fontSize: "32px",
+                            margin: "0 auto 20px"
                         }}>
                             ✅
                         </div>
 
                         <h6 style={{
-                            color:        primary,
-                            fontWeight:   "bold",
-                            fontFamily:   "'Inter', sans-serif",
-                            fontSize:     "16px",
+                            color: primary,
+                            fontWeight: "bold",
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: "16px",
                             marginBottom: "6px"
                         }}>
                             Transfer Successful!
@@ -160,18 +172,18 @@ const SendMoneyModal = ({ show, onClose }) => {
                         </p>
 
                         <div style={{
-                            background:   "rgba(15,61,46,0.04)",
-                            border:       "1px solid rgba(15,61,46,0.1)",
+                            background: "rgba(15,61,46,0.04)",
+                            border: "1px solid rgba(15,61,46,0.1)",
                             borderRadius: "12px",
-                            padding:      "20px",
+                            padding: "20px",
                             marginBottom: "20px"
                         }}>
                             <p style={{
-                                color:      primary,
+                                color: primary,
                                 fontWeight: "bold",
-                                fontSize:   "28px",
+                                fontSize: "28px",
                                 fontFamily: "'Inter', sans-serif",
-                                margin:     "0 0 4px"
+                                margin: "0 0 4px"
                             }}>
                                 ₦{parseFloat(successData.amount).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
                             </p>
@@ -184,16 +196,16 @@ const SendMoneyModal = ({ show, onClose }) => {
                         </div>
 
                         <div style={{
-                            background:   "#fafafa",
+                            background: "#fafafa",
                             borderRadius: "10px",
-                            padding:      "16px",
+                            padding: "16px",
                             marginBottom: "24px",
-                            textAlign:    "left"
+                            textAlign: "left"
                         }}>
                             {[
-                                { label: "Reference",     value: successData.reference },
-                                { label: "Description",   value: successData.description },
-                                { label: "Date",          value: new Date(successData.date).toLocaleString("en-NG") },
+                                { label: "Reference", value: successData.reference },
+                                { label: "Description", value: successData.description },
+                                { label: "Date", value: new Date(successData.date).toLocaleString("en-NG") },
                                 { label: "Balance After", value: `₦${parseFloat(successData.balanceAfter).toLocaleString("en-NG", { minimumFractionDigits: 2 })}` }
                             ].map((item, i) => (
                                 <div
@@ -211,42 +223,42 @@ const SendMoneyModal = ({ show, onClose }) => {
                             <button
                                 onClick={() => { setView("form"); setSuccessData(null) }}
                                 style={{
-                                    flex:          1,
-                                    padding:       "12px",
-                                    background:    "transparent",
-                                    color:         primary,
-                                    border:        `1.5px solid ${primary}`,
-                                    borderRadius:  "8px",
-                                    fontSize:      "12px",
-                                    fontWeight:    "bold",
-                                    fontFamily:    "'Inter', sans-serif",
-                                    cursor:        "pointer",
+                                    flex: 1,
+                                    padding: "12px",
+                                    background: "transparent",
+                                    color: primary,
+                                    border: `1.5px solid ${primary}`,
+                                    borderRadius: "8px",
+                                    fontSize: "12px",
+                                    fontWeight: "bold",
+                                    fontFamily: "'Inter', sans-serif",
+                                    cursor: "pointer",
                                     letterSpacing: "0.5px",
-                                    transition:    "all 0.2s"
+                                    transition: "all 0.2s"
                                 }}
                                 onMouseOver={e => { e.currentTarget.style.background = primary; e.currentTarget.style.color = "#FFFFFF" }}
-                                onMouseOut={e  => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = primary }}
+                                onMouseOut={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = primary }}
                             >
                                 Send Another
                             </button>
                             <button
                                 onClick={() => { handleClose(); navigate("/dashboard") }}
                                 style={{
-                                    flex:          1,
-                                    padding:       "12px",
-                                    background:    accent,
-                                    color:         primary,
-                                    border:        "none",
-                                    borderRadius:  "8px",
-                                    fontSize:      "12px",
-                                    fontWeight:    "bold",
-                                    fontFamily:    "'Inter', sans-serif",
-                                    cursor:        "pointer",
+                                    flex: 1,
+                                    padding: "12px",
+                                    background: accent,
+                                    color: primary,
+                                    border: "none",
+                                    borderRadius: "8px",
+                                    fontSize: "12px",
+                                    fontWeight: "bold",
+                                    fontFamily: "'Inter', sans-serif",
+                                    cursor: "pointer",
                                     letterSpacing: "0.5px",
-                                    transition:    "background 0.2s"
+                                    transition: "background 0.2s"
                                 }}
                                 onMouseOver={e => e.currentTarget.style.background = accentBright}
-                                onMouseOut={e  => e.currentTarget.style.background = accent}
+                                onMouseOut={e => e.currentTarget.style.background = accent}
                             >
                                 Go to Dashboard
                             </button>
@@ -289,16 +301,15 @@ const SendMoneyModal = ({ show, onClose }) => {
                                 style={{
                                     ...InputStyle(false),
                                     background: resolvedName && !isAccountNotFound ? "#f0f8f3" : "#fafafa",
-                                    color:      isAccountNotFound ? "#dc3545" : primary,
+                                    color: isAccountNotFound ? "#dc3545" : primary,
                                     fontWeight: resolvedName && !isAccountNotFound ? "bold" : "normal",
-                                    cursor:     "default",
-                                    border:     `1.5px solid ${
-                                        isAccountNotFound
+                                    cursor: "default",
+                                    border: `1.5px solid ${isAccountNotFound
                                             ? "#dc3545"
                                             : resolvedName
-                                            ? "rgba(76,175,80,0.4)"
-                                            : "#ddd"
-                                    }`
+                                                ? "rgba(76,175,80,0.4)"
+                                                : "#ddd"
+                                        }`
                                 }}
                             />
                         </div>
@@ -363,23 +374,25 @@ const SendMoneyModal = ({ show, onClose }) => {
 
                         <button
                             type="submit"
+                            disabled={isAccountNotFound || !resolvedName || lookingUp}
                             style={{
-                                width:         "100%",
-                                padding:       "13px",
-                                background:    accent,
-                                color:         primary,
-                                border:        "none",
-                                borderRadius:  "8px",
-                                fontSize:      "14px",
-                                fontWeight:    "bold",
-                                fontFamily:    "'Inter', sans-serif",
+                                width: "100%",
+                                padding: "13px",
+                                background: accent,
+                                color: primary,
+                                border: "none",
+                                borderRadius: "8px",
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                                fontFamily: "'Inter', sans-serif",
                                 letterSpacing: "1px",
-                                cursor:        "pointer",
-                                transition:    "background 0.2s",
-                                marginTop:     "8px"
+                                cursor: isAccountNotFound || !resolvedName || lookingUp ? "not-allowed" : "pointer",
+                                transition: "background 0.2s",
+                                marginTop: "8px",
+                                opacity: isAccountNotFound || !resolvedName || lookingUp ? 0.6 : 1
                             }}
-                            onMouseOver={e => e.currentTarget.style.background = accentBright}
-                            onMouseOut={e  => e.currentTarget.style.background = accent}
+                            onMouseOver={e => { if (!isAccountNotFound && resolvedName && !lookingUp) e.currentTarget.style.background = accentBright }}
+                            onMouseOut={e => e.currentTarget.style.background = accent}
                         >
                             SEND MONEY
                         </button>
