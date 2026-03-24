@@ -276,7 +276,7 @@ const Dashboard = () => {
                                 onMouseOver={e => e.target.style.background = primaryLight}
                                 onMouseOut={e => e.target.style.background = primary}
                             >
-                                View Balances
+                                View Portfolio
                             </button>
                             <button
                                 onClick={() => navigate("/crypto")}
