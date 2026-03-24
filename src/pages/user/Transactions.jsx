@@ -225,7 +225,8 @@ const Transactions = () => {
                 ) : (
                     activeTxs.map((tx, i) => {
                         const isBanking  = activeType === "banking"
-                        const moneyIn    = isBanking ? isMoneyIn(tx) : tx.type === "deposit"
+                        // const moneyIn    = isBanking ? isMoneyIn(tx) : tx.type === "deposit"
+                        const moneyIn = isBanking ? tx.type === "deposit"? true: tx.type === "withdrawal"? false : isMoneyIn(tx) : tx.type === "deposit"
                         const otherParty = isBanking
                             ? moneyIn
                                 ? `${tx.sender?.firstName || ""} ${tx.sender?.lastName || ""}`
@@ -328,7 +329,9 @@ const Transactions = () => {
                 >
                     {(() => {
                         const isBanking = activeType === "banking"
-                        const moneyIn   = isBanking ? isMoneyIn(selectedTx) : selectedTx.type === "deposit"
+                        // const moneyIn   = isBanking ? isMoneyIn(selectedTx) : selectedTx.type === "deposit"
+                        const moneyIn = isBanking ?selectedTx.type === "deposit"? true: selectedTx.type === "withdrawal"? false : isMoneyIn(selectedTx) : selectedTx.type === "deposit"
+                        
                         const badge     = statusColor(selectedTx.status)
 
                         return (
