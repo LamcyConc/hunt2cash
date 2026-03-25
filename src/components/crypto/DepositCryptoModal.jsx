@@ -59,6 +59,8 @@ const DepositCryptoModal = ({ show, onClose, wallet }) => {
         })
     })
 
+    
+
     const selectedAddress = wallet?.[formik.values.cryptoType]?.address || "—"
 
     return (
